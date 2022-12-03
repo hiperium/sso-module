@@ -1,0 +1,124 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowsAllActions",
+      "Effect": "Allow",
+      "Action": "*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "organizations:LeaveOrganization"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "cloudwatch:DeleteAlarms",
+        "cloudwatch:DeleteDashboards",
+        "cloudwatch:DisableAlarmActions",
+        "cloudwatch:PutDashboard",
+        "cloudwatch:PutMetricAlarm",
+        "cloudwatch:SetAlarmState"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "config:DeleteConfigRule",
+        "config:DeleteConfigurationRecorder",
+        "config:DeleteDeliveryChannel",
+        "config:StopConfigurationRecorder"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "guardduty:AcceptInvitation",
+        "guardduty:ArchiveFindings",
+        "guardduty:CreateDetector",
+        "guardduty:CreateFilter",
+        "guardduty:CreateIPSet",
+        "guardduty:CreateMembers",
+        "guardduty:CreatePublishingDestination",
+        "guardduty:CreateSampleFindings",
+        "guardduty:CreateThreatIntelSet",
+        "guardduty:DeclineInvitations",
+        "guardduty:DeleteDetector",
+        "guardduty:DeleteFilter",
+        "guardduty:DeleteInvitations",
+        "guardduty:DeleteIPSet",
+        "guardduty:DeleteMembers",
+        "guardduty:DeletePublishingDestination",
+        "guardduty:DeleteThreatIntelSet",
+        "guardduty:DisassociateFromMasterAccount",
+        "guardduty:DisassociateMembers",
+        "guardduty:InviteMembers",
+        "guardduty:StartMonitoringMembers",
+        "guardduty:StopMonitoringMembers",
+        "guardduty:TagResource",
+        "guardduty:UnarchiveFindings",
+        "guardduty:UntagResource",
+        "guardduty:UpdateDetector",
+        "guardduty:UpdateFilter",
+        "guardduty:UpdateFindingsFeedback",
+        "guardduty:UpdateIPSet",
+        "guardduty:UpdatePublishingDestination",
+        "guardduty:UpdateThreatIntelSet"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ram:CreateResourceShare",
+        "ram:UpdateResourceShare"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "Bool": {
+          "ram:RequestedAllowsExternalPrincipals": "true"
+        }
+      }
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ram:CreateResourceShare",
+        "ram:AssociateResourceShare"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ForAnyValue:StringLike": {
+          "ram:Principal": [
+            "arn:aws:organizations::*:organization/*",
+            "arn:aws:organizations::*:ou/*"
+          ]
+        }
+      }
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ec2:DeleteFlowLogs",
+        "logs:DeleteLogStream"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Deny",
+      "Action": [
+        "ec2:CreateVpcPeeringConnection",
+        "ec2:AcceptVpcPeeringConnection",
+        "globalaccelerator:Create*",
+        "globalaccelerator:Update*"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

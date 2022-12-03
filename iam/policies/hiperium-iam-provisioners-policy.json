@@ -1,0 +1,89 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Resource": "*",
+      "Effect": "Allow",
+      "NotAction": [
+        "iam:*",
+        "account:*",
+        "organizations:*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:AttachRolePolicy",
+        "iam:CreateRole",
+        "iam:CreatePolicy",
+        "iam:CreatePolicyVersion",
+        "iam:DeleteRole",
+        "iam:DeletePolicy",
+        "iam:DeleteRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:DeletePolicyVersion",
+        "iam:DeleteServiceLinkedRole",
+        "iam:DeleteRolePermissionsBoundary",
+        "iam:GetRole",
+        "iam:GetPolicy",
+        "iam:GetRolePolicy",
+        "iam:GetAccountSummary",
+        "iam:GetServiceLinkedRoleDeletionStatus",
+        "iam:ListRoles",
+        "iam:ListPolicies",
+        "iam:ListRoleTags",
+        "iam:ListRolePolicies",
+        "iam:ListPolicyVersions",
+        "iam:ListAttachedRolePolicies",
+        "iam:PutRolePolicy",
+        "iam:PutRolePermissionsBoundary",
+        "iam:PassRole",
+        "iam:TagRole",
+        "iam:UpdateRole",
+        "iam:UpdateAssumeRolePolicy",
+        "access-analyzer:ListPolicyGenerations"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "account:ListRegions",
+        "organizations:DescribePolicy",
+        "organizations:DescribeAccount",
+        "organizations:DescribeOrganization",
+        "organizations:DescribeOrganizationalUnit",
+        "organizations:ListRoots",
+        "organizations:ListParents",
+        "organizations:ListChildren",
+        "organizations:ListPolicies",
+        "organizations:ListTargetsForPolicy",
+        "organizations:ListPoliciesForTarget"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "RdsEcsSsmEcrPermissions",
+      "Effect": "Allow",
+      "Action": [
+        "iam:CreateServiceLinkedRole"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringLike": {
+          "iam:AWSServiceName": [
+            "rds.amazonaws.com",
+            "rds.application-autoscaling.amazonaws.com",
+            "autoscaling.amazonaws.com",
+            "ecs.amazonaws.com",
+            "ecs.application-autoscaling.amazonaws.com",
+            "spot.amazonaws.com",
+            "spotfleet.amazonaws.com",
+            "ssm.amazonaws.com",
+            "replication.ecr.amazonaws.com"
+          ]
+        }
+      }
+    }
+  ]
+}
