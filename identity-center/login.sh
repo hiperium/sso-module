@@ -2,7 +2,7 @@
 
 if [ -z "$AWS_PROFILE" ]; then
   echo ""
-  read -r -p 'Please, enter the <AWS profile> to login: [profile default] ' aws_profile
+  read -r -p 'Please, enter the <AWS profile> to get access: [profile default] ' aws_profile
   if [ -z "$aws_profile" ]; then
     AWS_PROFILE='default'
     export AWS_PROFILE

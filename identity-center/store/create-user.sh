@@ -35,17 +35,17 @@ if [ -z "$userEmail" ]; then
   userEmail='sandbox@example.com'
 fi
 
-read -r -p 'Please, enter the user Given name: [default User] ' userGivenName
+read -r -p 'Please, enter the First name: ' userGivenName
 if [ -z "$userGivenName" ]; then
   userGivenName='User'
 fi
 
-read -r -p 'Please, enter the user Family name: [default Sandbox] ' userFamilyName
+read -r -p 'Please, enter the Last name: ' userFamilyName
 if [ -z "$userFamilyName" ]; then
   userFamilyName='Sandbox'
 fi
 
-read -r -p 'Please, enter the user Display name: [default Sandbox User] ' userDisplayName
+read -r -p 'Please, enter the Display name: ' userDisplayName
 if [ -z "$userDisplayName" ]; then
   userDisplayName='Sandbox User'
 fi
