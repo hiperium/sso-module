@@ -22,18 +22,17 @@
         "iam:DeleteRolePolicy",
         "iam:DetachRolePolicy",
         "iam:DeletePolicyVersion",
-        "iam:DeleteServiceLinkedRole",
         "iam:DeleteRolePermissionsBoundary",
         "iam:GetRole",
         "iam:GetPolicy",
         "iam:GetRolePolicy",
         "iam:GetAccountSummary",
-        "iam:GetServiceLinkedRoleDeletionStatus",
         "iam:ListRoles",
         "iam:ListPolicies",
         "iam:ListRoleTags",
         "iam:ListRolePolicies",
         "iam:ListPolicyVersions",
+        "iam:ListAccountAliases",
         "iam:ListAttachedRolePolicies",
         "iam:PutRolePolicy",
         "iam:PutRolePermissionsBoundary",
@@ -63,15 +62,18 @@
       "Resource": "*"
     },
     {
-      "Sid": "RdsEcsSsmEcrPermissions",
+      "Sid": "ApiRdsEcsSsmEcrPermissions",
       "Effect": "Allow",
       "Action": [
-        "iam:CreateServiceLinkedRole"
+        "iam:CreateServiceLinkedRole",
+        "iam:DeleteServiceLinkedRole",
+        "iam:GetServiceLinkedRoleDeletionStatus"
       ],
       "Resource": "*",
       "Condition": {
         "StringLike": {
           "iam:AWSServiceName": [
+            "apigateway.amazonaws.com",
             "rds.amazonaws.com",
             "rds.application-autoscaling.amazonaws.com",
             "autoscaling.amazonaws.com",
