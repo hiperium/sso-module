@@ -73,16 +73,16 @@
       "Condition": {
         "StringLike": {
           "iam:AWSServiceName": [
-            "apigateway.amazonaws.com",
-            "rds.amazonaws.com",
-            "rds.application-autoscaling.amazonaws.com",
             "autoscaling.amazonaws.com",
             "ecs.amazonaws.com",
             "ecs.application-autoscaling.amazonaws.com",
-            "spot.amazonaws.com",
-            "spotfleet.amazonaws.com",
+            "ops.apigateway.amazonaws.com",
+            "rds.amazonaws.com",
+            "rds.application-autoscaling.amazonaws.com",
+            "replication.ecr.amazonaws.com",
             "ssm.amazonaws.com",
-            "replication.ecr.amazonaws.com"
+            "spot.amazonaws.com",
+            "spotfleet.amazonaws.com"
           ]
         }
       }
