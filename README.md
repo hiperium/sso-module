@@ -6,7 +6,7 @@
 
 ## Project's details on Medium.com
 You can follow the last project's details on my [Medium blog](https://aosolorzano.medium.com). If you want to see the last details, you can read the following articles:
-- Implementing Multi-Account Environment on AWS [post](https://aosolorzano.medium.com/implementing-sso-with-amazon-cognito-as-an-identity-provider-idp-38d8e1d4c98d).
+- Implementing Multi-Account Environment on AWS [post](https://aosolorzano.medium.com/implementing-a-multi-account-environment-with-aws-organizations-and-the-iam-identity-center-d1cdb40bdf4d).
 
 ## Requirements
 1. An AWS account.
