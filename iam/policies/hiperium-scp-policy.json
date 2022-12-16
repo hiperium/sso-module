@@ -105,14 +105,6 @@
     {
       "Effect": "Deny",
       "Action": [
-        "ec2:DeleteFlowLogs",
-        "logs:DeleteLogStream"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Deny",
-      "Action": [
         "ec2:CreateVpcPeeringConnection",
         "ec2:AcceptVpcPeeringConnection",
         "globalaccelerator:Create*",
