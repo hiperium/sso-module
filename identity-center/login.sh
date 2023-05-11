@@ -6,18 +6,19 @@ if [ -z "$hiperium_aws_profile" ]; then
   hiperium_aws_profile='default'
 fi
 
+echo ""
 aws sso login --profile "$hiperium_aws_profile"
 
 echo ""
 echo "GETTING INFORMATION FROM SSO SESSION..."
+echo ""
 
 accessToken=$(cat ~/.aws/sso/cache/* | jq -r '.accessToken | select( . != null )')
 if [ -z "$accessToken" ]; then
   echo "Error getting the SSO Access Token..."
   exit 1
 fi
-reducedAccessToken=$(echo "$accessToken" | cut -c1-15)
-echo "Access Token: $reducedAccessToken..."
+echo "Access Token: $(echo "$accessToken" | cut -c1-20)..."
 
 accountId=$(aws configure get sso_account_id --profile "$hiperium_aws_profile")
 if [ -z "$accountId" ]; then
