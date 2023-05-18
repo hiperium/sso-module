@@ -7,6 +7,7 @@ if [ -z "$hiperium_aws_profile" ]; then
 fi
 
 echo ""
+rm -rf ~/.aws/sso/cache
 aws sso login --profile "$hiperium_aws_profile"
 
 echo ""
