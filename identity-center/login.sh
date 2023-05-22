@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo ""
-read -r -p 'Please, enter the <AWS profile> to get access: [profile default] ' hiperium_aws_profile
+read -r -p 'Please, enter the <AWS Profile> to get access: [default] ' hiperium_aws_profile
 if [ -z "$hiperium_aws_profile" ]; then
   hiperium_aws_profile='default'
 fi
@@ -9,17 +9,7 @@ fi
 echo ""
 rm -rf ~/.aws/sso/cache
 aws sso login --profile "$hiperium_aws_profile"
-
 echo ""
-echo "GETTING INFORMATION FROM SSO SESSION..."
-echo ""
-
-accessToken=$(cat ~/.aws/sso/cache/* | jq -r '.accessToken | select( . != null )')
-if [ -z "$accessToken" ]; then
-  echo "Error getting the SSO Access Token..."
-  exit 1
-fi
-echo "Access Token: $(echo "$accessToken" | cut -c1-20)..."
 
 accountId=$(aws configure get sso_account_id --profile "$hiperium_aws_profile")
 if [ -z "$accountId" ]; then
@@ -35,11 +25,17 @@ if [ -z "$roleName" ]; then
 fi
 echo "Role Name: $roleName"
 
+accessToken=$(cat ~/.aws/sso/cache/* | jq -r '.accessToken | select( . != null )')
+if [ -z "$accessToken" ]; then
+  echo "Error getting the SSO Access Token..."
+  exit 1
+fi
+
 roleCredentials=$(aws sso get-role-credentials  \
   --account-id "$accountId"                     \
   --role-name "$roleName"                       \
   --access-token "$accessToken"                 \
-  --profile "$hiperium_aws_profile"                      \
+  --profile "$hiperium_aws_profile"             \
   --output json)
 if [ -z "$roleCredentials" ]; then
   echo "Error getting the SSO Role Credentials..."
@@ -47,7 +43,7 @@ if [ -z "$roleCredentials" ]; then
 fi
 
 echo ""
-echo "CONFIGURING CLI CREDENTIALS..."
+echo "CONFIGURING AWS-CLI CREDENTIALS..."
 
 accessKeyId=$(echo "$roleCredentials" | jq -r '.roleCredentials.accessKeyId')
 aws configure set aws_access_key_id "$accessKeyId" --profile "$hiperium_aws_profile"
