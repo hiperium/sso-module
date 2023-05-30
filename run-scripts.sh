@@ -27,7 +27,7 @@ function scpMenu() {
   5)  Attach SCP to OUs.
   6)  Detach SCP from OUs.
   -------------------------------------
-  q) QUIT.
+  r) Return.
   "
   read -r -p 'Choose an option: ' option
   case $option in
@@ -55,7 +55,7 @@ function scpMenu() {
     sh "$WORKING_DIR"/scp/detach-scp-from-ou.sh
     scpMenu
     ;;
-  [Qq])
+  [Rr])
     clear
     menu
     ;;
@@ -79,7 +79,7 @@ function identityMenu() {
   5) Create Group Membership.
   6) Delete Group Membership.
   -------------------------------------
-  q) QUIT.
+  r) Return.
   "
   read -r -p 'Choose an option: ' option
   case $option in
@@ -107,7 +107,7 @@ function identityMenu() {
     sh "$WORKING_DIR"/identity-center/store/delete-group-membership.sh
     identityMenu
     ;;
-  [Qq])
+  [Rr])
     clear
     menu
     ;;
@@ -127,11 +127,11 @@ function multiAccountMenu() {
   1) Create Permission Set.
   2) Update Permission Set.
   3) Delete Permission Set.
-  4) Set Inline Policy.
+  4) Put Inline Policy.
   5) Create Account Assignments.
   6) Delete Account Assignments.
   -------------------------------------
-  q) QUIT.
+  r) Return.
   "
   read -r -p 'Choose an option: ' option
   case $option in
@@ -159,7 +159,7 @@ function multiAccountMenu() {
     sh "$WORKING_DIR"/identity-center/permissions/delete-permission-set-assignments.sh
     multiAccountMenu
     ;;
-  [Qq])
+  [Rr])
     clear
     menu
     ;;
@@ -183,7 +183,7 @@ function menu() {
   c) Create ALL.
   d) Delete All.
   e) Environment variables.
-  q) QUIT.
+  q) Quit.
   "
   read -r -p 'Choose an option: ' option
   case $option in
