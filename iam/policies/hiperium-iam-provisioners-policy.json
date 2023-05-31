@@ -33,6 +33,7 @@
         "iam:ListRolePolicies",
         "iam:ListPolicyVersions",
         "iam:ListAccountAliases",
+        "iam:ListServerCertificates",
         "iam:ListAttachedRolePolicies",
         "iam:PutRolePolicy",
         "iam:PutRolePermissionsBoundary",
