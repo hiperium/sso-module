@@ -28,6 +28,7 @@ function scpMenu() {
   6)  Detach SCP from OUs.
   -------------------------------------
   r) Return.
+  q) Quit.
   "
   read -r -p 'Choose an option: ' option
   case $option in
@@ -59,6 +60,10 @@ function scpMenu() {
     clear
     menu
     ;;
+  [Qq])
+    clear
+    exit 0
+    ;;
   *)
     echo -e 'Wrong option.'
     clear
@@ -80,6 +85,7 @@ function identityMenu() {
   6) Delete Group Membership.
   -------------------------------------
   r) Return.
+  q) Quit.
   "
   read -r -p 'Choose an option: ' option
   case $option in
@@ -111,6 +117,10 @@ function identityMenu() {
     clear
     menu
     ;;
+  [Qq])
+    clear
+    exit 0
+    ;;
   *)
     echo -e 'Wrong option.'
     clear
@@ -132,6 +142,7 @@ function multiAccountMenu() {
   6) Delete Account Assignments.
   -------------------------------------
   r) Return.
+  q) Quit.
   "
   read -r -p 'Choose an option: ' option
   case $option in
@@ -162,6 +173,10 @@ function multiAccountMenu() {
   [Rr])
     clear
     menu
+    ;;
+  [Qq])
+    clear
+    exit 0
     ;;
   *)
     echo -e 'Wrong option.'

@@ -26,6 +26,7 @@
         "iam:GetRole",
         "iam:GetPolicy",
         "iam:GetRolePolicy",
+        "iam:GetPolicyVersion",
         "iam:GetAccountSummary",
         "iam:ListRoles",
         "iam:ListPolicies",
