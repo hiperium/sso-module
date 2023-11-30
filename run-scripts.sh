@@ -1,18 +1,50 @@
 #!/bin/bash
+set -e
 
 WORKING_DIR=$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
 export WORKING_DIR
 
 function setEnvironmentVariables() {
   echo ""
-  read -r -p 'Please, enter the <AWS profile> to deploy the API on AWS: [profile default] ' aws_profile
+  read -r -p 'Enter the <AWS profile> to manage your Organization: [default] ' aws_profile
   if [ -z "$aws_profile" ]; then
-    AWS_PROFILE='default'
-    export AWS_PROFILE
-  else
-    AWS_PROFILE=$aws_profile
-    export AWS_PROFILE
+    aws_profile='default'
   fi
+  sh "$WORKING_DIR"/helper/verify-aws-profile-existence.sh "$aws_profile"
+  AWS_PROFILE=$aws_profile
+  export AWS_PROFILE
+
+  echo ""
+  echo "GETTING INFORMATION FROM AWS. PLEASE WAIT..."
+
+  ### GET ORGANIZATION ID
+  rootId=$(aws organizations list-roots           \
+    --query "Roots[?contains(Name, 'Root')].[Id]" \
+    --output text)
+  if [ -z "$rootId" ]; then
+    echo "ERROR: Organization <Root> NOT found in your AWS account..."
+    exit 1
+  fi
+  echo "- Organization ID: $rootId"
+  export ORG_ROOT_ID=$rootId
+
+  ### GET IDENTITY STORE ID
+  storeId=$(sh "$WORKING_DIR"/common/get-identity-store-id.sh)
+  if [ -z "$storeId" ]; then
+    echo "ERROR: Hiperium Identity Store NOT found in IAM Identity Center..."
+    exit 1
+  fi
+  echo "- Identity Store ID: $storeId"
+  export IDENTITY_STORE_ID=$storeId
+
+  ### GET INSTANCE ARN
+  instanceArn=$(sh "$WORKING_DIR"/common/get-sso-instance-arn.sh)
+  if [ -z "$instanceArn" ]; then
+    echo "ERROR: No IAM Identity Center instance found in your AWS account..."
+    exit 0
+  fi
+  echo "- Instance ARN: $instanceArn"
+  export SSO_INSTANCE_ARN=$instanceArn
 }
 
 function scpMenu() {
@@ -33,27 +65,27 @@ function scpMenu() {
   read -r -p 'Choose an option: ' option
   case $option in
   1)
-    sh "$WORKING_DIR"/scp/create-scp.sh
+    sh "$WORKING_DIR"/1_scp/create-scp.sh
     scpMenu
     ;;
   2)
-    sh "$WORKING_DIR"/scp/update-scp.sh
+    sh "$WORKING_DIR"/1_scp/update-scp.sh
     scpMenu
     ;;
   3)
-    sh "$WORKING_DIR"/scp/delete-scp.sh
+    sh "$WORKING_DIR"/1_scp/delete-scp.sh
     scpMenu
     ;;
   4)
-    sh "$WORKING_DIR"/scp/enable-hiperium-scp.sh
+    sh "$WORKING_DIR"/1_scp/enable-hiperium-scp.sh
     scpMenu
     ;;
   5)
-    sh "$WORKING_DIR"/scp/attach-scp-to-ou.sh
+    sh "$WORKING_DIR"/1_scp/attach-scp-to-ou.sh
     scpMenu
     ;;
   6)
-    sh "$WORKING_DIR"/scp/detach-scp-from-ou.sh
+    sh "$WORKING_DIR"/1_scp/detach-scp-from-ou.sh
     scpMenu
     ;;
   [Rr])
@@ -65,7 +97,7 @@ function scpMenu() {
     exit 0
     ;;
   *)
-    echo -e 'Wrong option.'
+    echo 'Wrong option.'
     clear
     scpMenu
     ;;
@@ -90,27 +122,27 @@ function identityMenu() {
   read -r -p 'Choose an option: ' option
   case $option in
   1)
-    sh "$WORKING_DIR"/identity-center/store/create-group.sh
+    sh "$WORKING_DIR"/2_identity-store/create-group.sh
     identityMenu
     ;;
   2)
-    sh "$WORKING_DIR"/identity-center/store/delete-group.sh
+    sh "$WORKING_DIR"/2_identity-store/delete-group.sh
     identityMenu
     ;;
   3)
-    sh "$WORKING_DIR"/identity-center/store/create-user.sh
+    sh "$WORKING_DIR"/2_identity-store/create-user.sh
     identityMenu
     ;;
   4)
-    sh "$WORKING_DIR"/identity-center/store/delete-user.sh
+    sh "$WORKING_DIR"/2_identity-store/delete-user.sh
     identityMenu
     ;;
   5)
-    sh "$WORKING_DIR"/identity-center/store/create-group-membership.sh
+    sh "$WORKING_DIR"/2_identity-store/create-group-membership.sh
     identityMenu
     ;;
   6)
-    sh "$WORKING_DIR"/identity-center/store/delete-group-membership.sh
+    sh "$WORKING_DIR"/2_identity-store/delete-group-membership.sh
     identityMenu
     ;;
   [Rr])
@@ -122,7 +154,7 @@ function identityMenu() {
     exit 0
     ;;
   *)
-    echo -e 'Wrong option.'
+    echo 'Wrong option.'
     clear
     identityMenu
     ;;
@@ -147,27 +179,27 @@ function multiAccountMenu() {
   read -r -p 'Choose an option: ' option
   case $option in
   1)
-    sh "$WORKING_DIR"/identity-center/permissions/create-permission-set.sh
+    sh "$WORKING_DIR"/3_identity-permissions/create-permission-set.sh
     multiAccountMenu
     ;;
   2)
-    sh "$WORKING_DIR"/identity-center/permissions/update-permission-set.sh
+    sh "$WORKING_DIR"/3_identity-permissions/update-permission-set.sh
     multiAccountMenu
     ;;
   3)
-    sh "$WORKING_DIR"/identity-center/permissions/delete-permission-set.sh
+    sh "$WORKING_DIR"/3_identity-permissions/delete-permission-set.sh
     multiAccountMenu
     ;;
   4)
-    sh "$WORKING_DIR"/identity-center/permissions/put-inline-policy-to-permission-set.sh
+    sh "$WORKING_DIR"/3_identity-permissions/put-inline-policy-to-permission-set.sh
     multiAccountMenu
     ;;
   5)
-    sh "$WORKING_DIR"/identity-center/permissions/create-permission-set-assignments.sh
+    sh "$WORKING_DIR"/3_identity-permissions/create-permission-set-assignments.sh
     multiAccountMenu
     ;;
   6)
-    sh "$WORKING_DIR"/identity-center/permissions/delete-permission-set-assignments.sh
+    sh "$WORKING_DIR"/3_identity-permissions/delete-permission-set-assignments.sh
     multiAccountMenu
     ;;
   [Rr])
@@ -179,7 +211,7 @@ function multiAccountMenu() {
     exit 0
     ;;
   *)
-    echo -e 'Wrong option.'
+    echo 'Wrong option.'
     clear
     multiAccountMenu
     ;;
@@ -197,7 +229,6 @@ function menu() {
   -------------------------------------
   c) Create ALL.
   d) Delete All.
-  e) Environment variables.
   q) Quit.
   "
   read -r -p 'Choose an option: ' option
@@ -216,43 +247,32 @@ function menu() {
     ;;
   [Cc])
     clear
-    if [ -z "$AWS_PROFILE" ]; then
-      setEnvironmentVariables
-    fi
-    sh "$WORKING_DIR"/scp/enable-hiperium-scp.sh
-    sh "$WORKING_DIR"/scp/create-scp.sh
-    sh "$WORKING_DIR"/scp/attach-scp-to-ou.sh
-    sh "$WORKING_DIR"/identity-center/store/create-group.sh
-    sh "$WORKING_DIR"/identity-center/store/create-user.sh
-    sh "$WORKING_DIR"/identity-center/store/create-group-membership.sh
-    sh "$WORKING_DIR"/identity-center/permissions/create-permission-set.sh
-    sh "$WORKING_DIR"/identity-center/permissions/put-inline-policy-to-permission-set.sh
-    sh "$WORKING_DIR"/identity-center/permissions/create-permission-set-assignments.sh
+    sh "$WORKING_DIR"/1_scp/enable-hiperium-scp.sh
+    sh "$WORKING_DIR"/1_scp/create-scp.sh
+    sh "$WORKING_DIR"/1_scp/attach-scp-to-ou.sh
+    sh "$WORKING_DIR"/2_identity-store/create-group.sh
+    sh "$WORKING_DIR"/2_identity-store/create-user.sh
+    sh "$WORKING_DIR"/2_identity-store/create-group-membership.sh
+    sh "$WORKING_DIR"/3_identity-permissions/create-permission-set.sh
+    sh "$WORKING_DIR"/3_identity-permissions/put-inline-policy-to-permission-set.sh
+    sh "$WORKING_DIR"/3_identity-permissions/create-permission-set-assignments.sh
+    clear
+    echo ""
+    echo "DONE!"
     menu
     ;;
   [Dd])
     clear
-    if [ -z "$AWS_PROFILE" ]; then
-      setEnvironmentVariables
-    fi
-    sh "$WORKING_DIR"/identity-center/store/delete-memberships-and-users.sh
-    sh "$WORKING_DIR"/identity-center/permissions/delete-permission-set-assignments.sh
-    sh "$WORKING_DIR"/identity-center/store/delete-group.sh
-    sh "$WORKING_DIR"/identity-center/permissions/delete-permission-set.sh
-    sh "$WORKING_DIR"/scp/detach-scp-from-ou.sh
-    sh "$WORKING_DIR"/scp/delete-scp.sh
-    sh "$WORKING_DIR"/scp/disable-hiperium-scp.sh
-    menu
-    ;;
-  [Ee])
+    sh "$WORKING_DIR"/2_identity-store/delete-memberships-and-users.sh
+    sh "$WORKING_DIR"/3_identity-permissions/delete-permission-set-assignments.sh
+    sh "$WORKING_DIR"/2_identity-store/delete-group.sh
+    sh "$WORKING_DIR"/3_identity-permissions/delete-permission-set.sh
+    sh "$WORKING_DIR"/1_scp/detach-scp-from-ou.sh
+    sh "$WORKING_DIR"/1_scp/delete-scp.sh
+    sh "$WORKING_DIR"/1_scp/disable-hiperium-scp.sh
     clear
-    if [ "$AWS_PROFILE" ]; then
-      echo "AWS profile is already assigned: $AWS_PROFILE"
-      read -r -p 'Do you want to change it? [y/N] ' change
-      if [ "$change" = 'y' ] || [ "$change" = 'Y' ]; then
-        setEnvironmentVariables
-      fi
-    fi
+    echo ""
+    echo "DONE!"
     menu
     ;;
   [Qq])
@@ -260,12 +280,14 @@ function menu() {
     exit 0
     ;;
   *)
-    echo -e 'Wrong option.'
+    echo 'Wrong option.'
     clear
     menu
     ;;
   esac
 }
 
+clear
+setEnvironmentVariables
 clear
 menu

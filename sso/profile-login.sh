@@ -7,28 +7,27 @@ if [ -z "$hiperium_aws_profile" ]; then
 fi
 
 echo ""
-rm -rf ~/.aws/sso/cache
 aws sso login --profile "$hiperium_aws_profile"
 echo ""
 
 accountId=$(aws configure get sso_account_id --profile "$hiperium_aws_profile")
 if [ -z "$accountId" ]; then
   echo "Error getting the SSO Account ID..."
-  exit 1
+  exit 0
 fi
-echo "Account ID: $accountId"
+echo "- Account ID: $accountId"
 
 roleName=$(aws configure get sso_role_name --profile "$hiperium_aws_profile")
 if [ -z "$roleName" ]; then
   echo "Error getting the SSO Role Name..."
-  exit 1
+  exit 0
 fi
-echo "Role Name: $roleName"
+echo "- Role Name: $roleName"
 
 accessToken=$(cat ~/.aws/sso/cache/* | jq -r '.accessToken | select( . != null )')
 if [ -z "$accessToken" ]; then
-  echo "Error getting the SSO Access Token..."
-  exit 1
+  echo "ERROR: There was a problem getting the SSO Access Token..."
+  exit 0
 fi
 
 roleCredentials=$(aws sso get-role-credentials  \
@@ -38,8 +37,8 @@ roleCredentials=$(aws sso get-role-credentials  \
   --profile "$hiperium_aws_profile"             \
   --output json)
 if [ -z "$roleCredentials" ]; then
-  echo "Error getting the SSO Role Credentials..."
-  exit 1
+  echo "ERROR: There was a problem getting the SSO Credentials..."
+  exit 0
 fi
 
 echo ""
