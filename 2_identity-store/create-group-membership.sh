@@ -32,5 +32,5 @@ echo "ASSIGNING USER TO PROVISIONERS GROUP..."
 aws identitystore create-group-membership       \
   --identity-store-id "$IDENTITY_STORE_ID"      \
   --group-id "$groupId"                         \
-  --member-id "UserId=$userId"
+  --member-id "UserId=$userId" > /dev/null
 echo "DONE!"

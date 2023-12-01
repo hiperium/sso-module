@@ -16,7 +16,7 @@ echo "- Hiperium SCP ID: $scpId"
 
 echo ""
 echo "UPDATING HIPERIUM SCP..."
-aws organizations update-policy   \
-  --policy-id "$scpId"            \
+aws organizations update-policy     \
+  --policy-id "$scpId"              \
   --content file://"$WORKING_DIR"/templates/iam/policies/hiperium-scp-policy.json
 echo "DONE!"

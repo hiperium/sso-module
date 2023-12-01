@@ -16,7 +16,7 @@ echo "- Hiperium SCP ID: $scpId"
 
 echo ""
 echo "DELETING HIPERIUM SCP..."
-aws organizations delete-policy                             \
+aws organizations delete-policy   \
   --policy-id "$scpId"
 echo "DONE!"
 

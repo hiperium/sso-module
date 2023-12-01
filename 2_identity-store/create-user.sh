@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+clear
+echo ""
+echo "CREATING HIPERIUM USER..."
+
 echo ""
 read -r -p 'Enter the user <First Name>: ' userGivenName
 if [ -z "$userGivenName" ]; then
@@ -14,7 +18,6 @@ if [ -z "$userFamilyName" ]; then
   exit 0
 fi
 
-echo ""
 read -r -p 'Enter the <Username>: ' username
 if [ -z "$username" ]; then
   echo "ERROR: <Username> is required."
@@ -34,7 +37,7 @@ if [ -z "$userDisplayName" ]; then
 fi
 
 echo ""
-echo "CREATING USER..."
+echo "Crating User with provided info..."
 aws identitystore create-user                         \
   --identity-store-id "$IDENTITY_STORE_ID"            \
   --user-name "$username"                             \
@@ -42,7 +45,7 @@ aws identitystore create-user                         \
   --timezone "America/Guayaquil"                      \
   --display-name "$userDisplayName"                   \
   --emails "Value=$userEmail,Type=Work,Primary=true"  \
-  --name "Formatted=$userDisplayName,FamilyName=$userFamilyName,GivenName=$userGivenName"
+  --name "Formatted=$userDisplayName,FamilyName=$userFamilyName,GivenName=$userGivenName" > /dev/null
 
 echo "DONE!
 

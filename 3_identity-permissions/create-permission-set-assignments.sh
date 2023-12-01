@@ -21,10 +21,10 @@ permissionSetsArn=$(aws sso-admin list-permission-sets --instance-arn "$SSO_INST
 ### ITERATE OVER PERMISSION-SETS TO GET PROVISIONERS PERMISSION-SET ARN
 for permissionSetArn in $(echo "$permissionSetsArn" | jq -r '.PermissionSets[]'); do
   describePermissionSet=$(aws sso-admin describe-permission-set \
-    --instance-arn "$SSO_INSTANCE_ARN" \
+    --instance-arn "$SSO_INSTANCE_ARN"  \
     --permission-set-arn "$permissionSetArn")
   permissionSetName=$(echo "$describePermissionSet" | jq -r '.PermissionSet.Name')
-  if [ "$permissionSetName" = "hiperium-sso-provisioners-ps" ]; then
+  if [ "$permissionSetName" = "sso-city-provisioners-ps" ]; then
     provisionersPermissionArn="$permissionSetArn"
     break
   fi
@@ -45,6 +45,7 @@ if [ -z "$actualAccountId" ]; then
   exit 0
 fi
 
+clear
 echo ""
 echo "PROVISIONERS PERMISSION-SET ASSIGNMENT TO ACCOUNTS..."
 
@@ -70,12 +71,12 @@ for account in $(echo "$listAccounts" | jq -r '.[] | @base64'); do
   [Yy]*)
     echo "Assigning Permission-Set..."
     aws sso-admin create-account-assignment               \
-      --instance-arn "$SSO_INSTANCE_ARN"                       \
+      --instance-arn "$SSO_INSTANCE_ARN"                  \
       --target-type AWS_ACCOUNT                           \
       --target-id "$accountId"                            \
       --permission-set-arn "$provisionersPermissionArn"   \
       --principal-type GROUP                              \
-      --principal-id "$groupId"
+      --principal-id "$groupId" > /dev/null
     echo "Done!"
     ;;
   *)

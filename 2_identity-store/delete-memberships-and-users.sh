@@ -17,7 +17,7 @@ echo "DELETING MEMBERSHIPS AND USERS FROM <PROVISIONERS> GROUP..."
 
 ### GET MEMBERSHIPS
 groupMemberships=$(aws identitystore list-group-memberships \
-  --identity-store-id "$IDENTITY_STORE_ID" \
+  --identity-store-id "$IDENTITY_STORE_ID"                  \
   --group-id "$groupId")
 numberOfMembers=$(echo "$groupMemberships" | jq -r '.GroupMemberships | length')
 if [ "$numberOfMembers" -eq 0 ]; then
@@ -34,8 +34,8 @@ for groupMembership in $(echo "$groupMemberships" | jq -r '.GroupMemberships[] |
   membershipId=$(_jq '.MembershipId')
   echo ""
   echo "- Deleting Membership: $membershipId..."
-  aws identitystore delete-group-membership \
-    --identity-store-id "$IDENTITY_STORE_ID"          \
+  aws identitystore delete-group-membership   \
+    --identity-store-id "$IDENTITY_STORE_ID"  \
     --membership-id "$membershipId"
 
   memberId=$(_jq '.MemberId | @base64')
@@ -44,7 +44,7 @@ for groupMembership in $(echo "$groupMemberships" | jq -r '.GroupMemberships[] |
   }
   userId=$(_jq '.UserId')
   echo "- Deleting User: $userId..."
-  aws identitystore delete-user     \
+  aws identitystore delete-user               \
     --identity-store-id "$IDENTITY_STORE_ID"  \
     --user-id "$userId"
 done

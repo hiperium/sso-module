@@ -28,11 +28,11 @@ fi
 echo "- User ID: $userId"
 
 ### GET MEMBERSHIP ID
-groupMembershipId=$(aws identitystore get-group-membership-id \
+groupMembershipId=$(aws identitystore get-group-membership-id   \
   --identity-store-id "$IDENTITY_STORE_ID"  \
-  --group-id "$groupId"           \
-  --member-id "UserId=$userId"    \
-  --query "MembershipId"          \
+  --group-id "$groupId"                     \
+  --member-id "UserId=$userId"              \
+  --query "MembershipId"                    \
   --output text)
 if [ -z "$groupMembershipId" ]; then
   echo "ERROR: User Membership NOT found in the Provisioners Group..."
@@ -42,7 +42,7 @@ echo "- Membership ID: $groupMembershipId"
 
 echo ""
 echo "DELETING PROVISIONER USER MEMBERSHIP..."
-aws identitystore delete-group-membership \
-  --identity-store-id "$IDENTITY_STORE_ID" \
+aws identitystore delete-group-membership   \
+  --identity-store-id "$IDENTITY_STORE_ID"  \
   --membership-id "$groupMembershipId"
 echo "DONE!"

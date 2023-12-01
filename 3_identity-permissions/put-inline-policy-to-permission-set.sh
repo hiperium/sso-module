@@ -14,7 +14,7 @@ for permissionSetArn in $(echo "$permissionSetsArn" | jq -r '.PermissionSets[]')
     --instance-arn "$SSO_INSTANCE_ARN" \
     --permission-set-arn "$permissionSetArn")
   permissionSetName=$(echo "$describePermissionSet" | jq -r '.PermissionSet.Name')
-  if [ "$permissionSetName" = "hiperium-sso-provisioners-ps" ]; then
+  if [ "$permissionSetName" = "sso-city-provisioners-ps" ]; then
     aws sso-admin put-inline-policy-to-permission-set   \
       --instance-arn "$SSO_INSTANCE_ARN"                \
       --permission-set-arn "$permissionSetArn"          \

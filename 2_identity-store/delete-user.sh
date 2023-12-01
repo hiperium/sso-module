@@ -18,7 +18,7 @@ echo "- User ID: $userId"
 
 echo ""
 echo "DELETING USER..."
-aws identitystore delete-user     \
+aws identitystore delete-user               \
   --identity-store-id "$IDENTITY_STORE_ID"  \
   --user-id "$userId"
 echo "DONE!"

@@ -25,7 +25,7 @@ for permissionSetArn in $(echo "$permissionSetsArn" | jq -r '.PermissionSets[]')
     --permission-set-arn "$permissionSetArn")
   permissionSetName=$(echo "$describePermissionSet" | jq -r '.PermissionSet.Name')
 
-  if [ "$permissionSetName" = "hiperium-sso-provisioners-ps" ]; then
+  if [ "$permissionSetName" = "sso-city-provisioners-ps" ]; then
     provisionersPermissionArn="$permissionSetArn"
     break
   fi
@@ -54,7 +54,7 @@ echo ""
 for accountId in $(echo "$provisionedAccounts" | jq -r '.AccountIds[]'); do
   echo "- Deleting Assignment for Account: $accountId"
   aws sso-admin delete-account-assignment               \
-    --instance-arn "$SSO_INSTANCE_ARN"                       \
+    --instance-arn "$SSO_INSTANCE_ARN"                  \
     --target-type AWS_ACCOUNT                           \
     --target-id "$accountId"                            \
     --permission-set-arn "$provisionersPermissionArn"   \

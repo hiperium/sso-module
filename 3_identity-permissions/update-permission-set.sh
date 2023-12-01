@@ -14,14 +14,14 @@ for permissionSetArn in $(echo "$permissionSetsArn" | jq -r '.PermissionSets[]')
     --instance-arn "$SSO_INSTANCE_ARN" \
     --permission-set-arn "$permissionSetArn")
   permissionSetName=$(echo "$describePermissionSet" | jq -r '.PermissionSet.Name')
-  if [ "$permissionSetName" = "hiperium-sso-provisioners-ps" ]; then
+  if [ "$permissionSetName" = "sso-city-provisioners-ps" ]; then
     echo ""
     echo "Updating <provisioners> Permission-Set..."
     aws sso-admin update-permission-set           \
-      --instance-arn "$SSO_INSTANCE_ARN"               \
+      --instance-arn "$SSO_INSTANCE_ARN"          \
       --permission-set-arn "$permissionSetArn"    \
       --session-duration "PT8H"                   \
-      --description "Permission-Set updated for application provisioners" \
+      --description "Permission-Set updated for application provisioners"   \
       --relay-state "https://us-east-1.console.aws.amazon.com/console/home"
     echo "Done!"
     permissionSetUpdated=true
