@@ -41,7 +41,7 @@ function setEnvironmentVariables() {
   instanceArn=$(sh "$WORKING_DIR"/common/get-sso-instance-arn.sh)
   if [ -z "$instanceArn" ]; then
     echo "ERROR: No IAM Identity Center instance found in your AWS account..."
-    exit 0
+    exit 1
   fi
   echo "- Instance ARN: $instanceArn"
   export SSO_INSTANCE_ARN=$instanceArn
@@ -66,26 +66,44 @@ function scpMenu() {
   case $option in
   1)
     sh "$WORKING_DIR"/1_scp/create-scp.sh
+    clear
+    echo ""
+    echo "DONE!"
     scpMenu
     ;;
   2)
     sh "$WORKING_DIR"/1_scp/update-scp.sh
+    clear
+    echo ""
+    echo "DONE!"
     scpMenu
     ;;
   3)
     sh "$WORKING_DIR"/1_scp/delete-scp.sh
+    clear
+    echo ""
+    echo "DONE!"
     scpMenu
     ;;
   4)
     sh "$WORKING_DIR"/1_scp/enable-hiperium-scp.sh
+    clear
+    echo ""
+    echo "DONE!"
     scpMenu
     ;;
   5)
     sh "$WORKING_DIR"/1_scp/attach-scp-to-ou.sh
+    clear
+    echo ""
+    echo "DONE!"
     scpMenu
     ;;
   6)
     sh "$WORKING_DIR"/1_scp/detach-scp-from-ou.sh
+    clear
+    echo ""
+    echo "DONE!"
     scpMenu
     ;;
   [Rr])
@@ -123,26 +141,44 @@ function identityMenu() {
   case $option in
   1)
     sh "$WORKING_DIR"/2_identity-store/create-group.sh
+    clear
+    echo ""
+    echo "DONE!"
     identityMenu
     ;;
   2)
     sh "$WORKING_DIR"/2_identity-store/delete-group.sh
+    clear
+    echo ""
+    echo "DONE!"
     identityMenu
     ;;
   3)
     sh "$WORKING_DIR"/2_identity-store/create-user.sh
+    clear
+    echo ""
+    echo "DONE!"
     identityMenu
     ;;
   4)
     sh "$WORKING_DIR"/2_identity-store/delete-user.sh
+    clear
+    echo ""
+    echo "DONE!"
     identityMenu
     ;;
   5)
     sh "$WORKING_DIR"/2_identity-store/create-group-membership.sh
+    clear
+    echo ""
+    echo "DONE!"
     identityMenu
     ;;
   6)
     sh "$WORKING_DIR"/2_identity-store/delete-group-membership.sh
+    clear
+    echo ""
+    echo "DONE!"
     identityMenu
     ;;
   [Rr])
@@ -180,26 +216,44 @@ function multiAccountMenu() {
   case $option in
   1)
     sh "$WORKING_DIR"/3_identity-permissions/create-permission-set.sh
+    clear
+    echo ""
+    echo "DONE!"
     multiAccountMenu
     ;;
   2)
     sh "$WORKING_DIR"/3_identity-permissions/update-permission-set.sh
+    clear
+    echo ""
+    echo "DONE!"
     multiAccountMenu
     ;;
   3)
     sh "$WORKING_DIR"/3_identity-permissions/delete-permission-set.sh
+    clear
+    echo ""
+    echo "DONE!"
     multiAccountMenu
     ;;
   4)
     sh "$WORKING_DIR"/3_identity-permissions/put-inline-policy-to-permission-set.sh
+    clear
+    echo ""
+    echo "DONE!"
     multiAccountMenu
     ;;
   5)
     sh "$WORKING_DIR"/3_identity-permissions/create-permission-set-assignments.sh
+    clear
+    echo ""
+    echo "DONE!"
     multiAccountMenu
     ;;
   6)
     sh "$WORKING_DIR"/3_identity-permissions/delete-permission-set-assignments.sh
+    clear
+    echo ""
+    echo "DONE!"
     multiAccountMenu
     ;;
   [Rr])

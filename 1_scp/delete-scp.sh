@@ -10,7 +10,7 @@ scpId=$(aws organizations list-policies --filter SERVICE_CONTROL_POLICY \
   --output text)
 if [ -z "$scpId" ]; then
   echo "ERROR: Hiperium SCP NOT found..."
-  exit 0
+  exit 1
 fi
 echo "- Hiperium SCP ID: $scpId"
 

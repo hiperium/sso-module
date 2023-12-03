@@ -10,7 +10,7 @@ scpId=$(aws organizations list-policies --filter SERVICE_CONTROL_POLICY \
   --output text)
 if [ -z "$scpId" ]; then
   echo "ERROR: Hiperium SCP NOT found in AWS..."
-  exit 0
+  exit 1
 fi
 echo "- Hiperium SCP ID: $scpId"
 
@@ -23,7 +23,7 @@ organizationOUs=$(aws organizations list-organizational-units-for-parent \
   --output json)
 if [ -z "$organizationOUs" ]; then
   echo "ERROR: No OUs found in the Hiperium Organization."
-  exit 0
+  exit 1
 fi
 
 ### ITERATE OVER OUs TO ATTACH HIPERIUM SCP

@@ -8,7 +8,7 @@ echo "GETTING INFORMATION FROM AWS. PLEASE WAIT..."
 groupId=$(sh "$WORKING_DIR"/common/get-identity-group-id.sh)
 if [ -z "$groupId" ]; then
   echo "ERROR: Provisioners Group NOT found in IAM Identity Center..."
-  exit 0
+  exit 1
 fi
 echo "- Group ID: $groupId"
 
@@ -31,7 +31,7 @@ for permissionSetArn in $(echo "$permissionSetsArn" | jq -r '.PermissionSets[]')
 done
 if [ -z "$provisionersPermissionArn" ]; then
   echo "ERROR: <provisioners> Permission-Set NOT found..."
-  exit 0
+  exit 1
 fi
 echo "- Permission-Set: $provisionersPermissionArn"
 
@@ -42,7 +42,7 @@ actualAccountId=$(aws sts get-caller-identity   \
   --output text)
 if [ -z "$actualAccountId" ]; then
   echo "ERROR: No AWS Account ID found for the assignment..."
-  exit 0
+  exit 1
 fi
 
 clear

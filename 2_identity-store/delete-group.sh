@@ -8,7 +8,7 @@ echo "GETTING INFORMATION FROM AWS. PLEASE WAIT..."
 groupId=$(sh "$WORKING_DIR"/common/get-identity-group-id.sh)
 if [ -z "$groupId" ]; then
   echo "ERROR: No Provisioners Group found in IAM Identity Center..."
-  exit 0
+  exit 1
 fi
 echo "- Group ID: $groupId"
 

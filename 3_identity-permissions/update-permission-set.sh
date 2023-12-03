@@ -32,4 +32,5 @@ done
 if [ "$permissionSetUpdated" == false ]; then
   echo ""
   echo "NO PERMISSION-SET FOUND TO UPDATE..."
+  exit 1
 fi

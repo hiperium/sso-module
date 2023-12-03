@@ -8,7 +8,7 @@ echo "GETTING INFORMATION FROM AWS. PLEASE WAIT..."
 groupId=$(sh "$WORKING_DIR"/common/get-identity-group-id.sh)
 if [ -z "$groupId" ]; then
   echo "ERROR: No Provisioners Group found in IAM Identity Center..."
-  exit 0
+  exit 1
 fi
 echo "- Group ID: $groupId"
 
@@ -34,7 +34,7 @@ done
 ### CHECK IF PROVISIONERS PERMISSION-SET WAS FOUND
 if [ -z "$provisionersPermissionArn" ]; then
   echo "ERROR: Provisioners Permission-Set NOT found in IAM Identity Center..."
-  exit 0
+  exit 1
 fi
 echo "- Provisioners Permission-Set ARN: $provisionersPermissionArn"
 
@@ -45,7 +45,7 @@ provisionedAccounts=$(aws sso-admin list-accounts-for-provisioned-permission-set
 numberOfProvisionedAccounts=$(echo "$provisionedAccounts" | jq -r '.AccountIds | length')
 if [ "$numberOfProvisionedAccounts" -eq 0 ]; then
   echo "ERROR: No provisioned accounts found to delete..."
-  exit 0
+  exit 1
 fi
 echo "- Number of provisioned accounts: $numberOfProvisionedAccounts"
 

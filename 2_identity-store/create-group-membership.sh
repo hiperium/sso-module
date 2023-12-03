@@ -5,7 +5,7 @@ echo ""
 read -r -p 'Enter the <Username> to assign to <Provisioners> group: ' username
 if [ -z "$username" ]; then
   echo "ERROR: Username is required."
-  exit 0
+  exit 1
 fi
 
 echo ""
@@ -15,7 +15,7 @@ echo "GETTING INFORMATION FROM AWS. PLEASE WAIT..."
 groupId=$(sh "$WORKING_DIR"/common/get-identity-group-id.sh)
 if [ -z "$groupId" ]; then
   echo "ERROR: No Provisioners Group found in IAM Identity Center..."
-  exit 0
+  exit 1
 fi
 echo "- Group ID: $groupId"
 
@@ -23,7 +23,7 @@ echo "- Group ID: $groupId"
 userId=$(sh "$WORKING_DIR"/common/get-identity-user-id.sh "$username")
 if [ -z "$userId" ]; then
   echo "ERROR: User NOT found in the IAM Identity Center..."
-  exit 0
+  exit 1
 fi
 echo "- User ID: $userId"
 

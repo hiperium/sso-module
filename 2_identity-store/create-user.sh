@@ -9,31 +9,31 @@ echo ""
 read -r -p 'Enter the user <First Name>: ' userGivenName
 if [ -z "$userGivenName" ]; then
   echo "ERROR: The user <First Name> is required."
-  exit 0
+  exit 1
 fi
 
 read -r -p 'Enter the user <Last Name>: ' userFamilyName
 if [ -z "$userFamilyName" ]; then
   echo "ERROR: The user <Last Name> is required."
-  exit 0
+  exit 1
 fi
 
 read -r -p 'Enter the <Username>: ' username
 if [ -z "$username" ]; then
   echo "ERROR: <Username> is required."
-  exit 0
+  exit 1
 fi
 
 read -r -p 'Enter the user <Email>: ' userEmail
 if [ -z "$userEmail" ]; then
   echo "ERROR: User <Email> is required."
-  exit 0
+  exit 1
 fi
 
 read -r -p 'Enter the user <Display> name: ' userDisplayName
 if [ -z "$userDisplayName" ]; then
   echo "ERROR: User <Display> name is required."
-  exit 0
+  exit 1
 fi
 
 echo ""
