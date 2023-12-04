@@ -2,7 +2,7 @@
 set -e
 
 echo ""
-echo "ASSIGNING INLINE <POLICY> TO <PROVISIONERS> PERMISSION-SET..."
+echo "PUTTING INLINE <POLICY> TO <PROVISIONERS> PERMISSION-SET..."
 
 ### GET PROVISIONERS PERMISSION-SET ARN
 permissionSetsArn=$(aws sso-admin list-permission-sets --instance-arn "$SSO_INSTANCE_ARN")

@@ -63,7 +63,7 @@ for account in $(echo "$listAccounts" | jq -r '.[] | @base64'); do
     continue
   fi
   echo ""
-  read -r -p "Do you want to assign the 'Provisioners' Permission-Set to Account '${accountName}'? (y/N): " yn
+  read -r -p "Do you want to assign 'Provisioners' Permission-Set to Account '${accountName}'? (y/N): " yn
   if [ -z "$yn" ]; then
     yn='N'
   fi
