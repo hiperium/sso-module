@@ -2,8 +2,8 @@
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Resource": "*",
       "Effect": "Allow",
+      "Resource": "*",
       "NotAction": [
         "iam:*",
         "account:*",
@@ -13,12 +13,23 @@
     {
       "Effect": "Allow",
       "Action": [
+        "account:List*",
+        "organizations:Describe*",
+        "organizations:List*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "iam:AttachRolePolicy",
+        "iam:AddRoleToInstanceProfile",
         "iam:CreateUser",
         "iam:CreateRole",
         "iam:CreatePolicy",
         "iam:CreateAccessKey",
         "iam:CreatePolicyVersion",
+        "iam:CreateInstanceProfile",
         "iam:DeleteUser",
         "iam:DeleteRole",
         "iam:DeletePolicy",
@@ -38,29 +49,11 @@
         "iam:UpdateUser",
         "iam:UpdateRole",
         "iam:UpdateAssumeRolePolicy",
-        "access-analyzer:ListPolicyGenerations"
+        "access-analyzer:List*"
       ],
       "Resource": "*"
     },
     {
-      "Effect": "Allow",
-      "Action": [
-        "account:ListRegions",
-        "organizations:DescribePolicy",
-        "organizations:DescribeAccount",
-        "organizations:DescribeOrganization",
-        "organizations:DescribeOrganizationalUnit",
-        "organizations:ListRoots",
-        "organizations:ListParents",
-        "organizations:ListChildren",
-        "organizations:ListPolicies",
-        "organizations:ListTargetsForPolicy",
-        "organizations:ListPoliciesForTarget"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Sid": "ApiRdsEcsSsmEcrPermissions",
       "Effect": "Allow",
       "Action": [
         "iam:CreateServiceLinkedRole",
